@@ -1,0 +1,38 @@
+﻿@{ ViewBag.Title = "OrderStatus";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<h2>Check Your Order Status Here!</h2>
+<p> Simply enter the order number you recieved earlier to get updates on the status of your order!</p>
+
+<form>
+@{ 
+    
+    <p>Please Enter Your Order Number: <input type="text" id="orderNumber" size=5> <input type="button" value="Submit"></p>
+}
+
+
+</form>
+
+<script>
+    var sbmt_btn = document.querySelector("input[type=button]");
+    sbmt_btn.addEventListener("click", getStatus);
+
+    function getStatus() {
+        var status;
+        status = document.getElementById("orderNumber");
+        if ((status.value != "")){
+            window.location.href = '/OrderStatus/Status?orderNumber=' + status.value;
+        }
+        else {
+            alert("Invalid Input, Please try again");
+        }
+        
+    }
+
+    function donothing() {
+
+    }
+
+</script>
+
+

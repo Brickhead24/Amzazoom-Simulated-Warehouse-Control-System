@@ -1,0 +1,135 @@
+﻿@model WebServer.ViewModels.WarehouseViewModel
+@{
+    ViewBag.Title = "WarehouseShelfLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    p {
+        text-align: center;
+    }
+</style>
+
+<h2>Warehouse Shelf Layout</h2>
+<p> NOTE: Grid index locations start at 0</p>
+
+<p> Warehouse Size: @Model.rows x @Model.cols </p>
+@*Requests user input for shelf locations*@
+<table border="1" style="margin-left:auto;margin-right:auto;">
+    <tr>
+        <th width=350 colspan="2" style="text-align:center">Shelf Location</th>
+    </tr>
+    <tr>
+        <th width=100 style="text-align:center">Row</th>
+        <th width=100 style="text-align:center">Column</th>
+
+    </tr>
+
+    <tr>
+        <td width=100 style="text-align:center"><input type="text" id="row" size=5></td>
+        <td width=100 style="text-align:center"><input type="text" id="col" size=5></td>
+    </tr>
+</table>
+<p style="text-align:center"><input type="button" id="addItem" value="Add Shelf to Layout"> </p>
+
+@*Displays current shelf locations in layout*@
+@if (Model.layout != null)
+{
+    <table border="1" style="margin-left:auto;margin-right:auto;">
+        <tr>
+            <th width=350 colspan="2" style="text-align:center">Shelf Location</th>
+        </tr>
+        <tr>
+            <th width=100 style="text-align:center">Row</th>
+            <th width=100 style="text-align:center">Column</th>
+
+        </tr>
+
+        @{
+
+            int row, col;
+            //shelf=row,col!shelf=row,col...
+            string[] items = Model.layout.Split('!');
+
+            foreach (string item in items)
+            {
+                string[] parts = item.Split('=');
+                string[] values = parts[1].Split(',');
+
+
+                row = Int32.Parse(values[0]);
+                col = Int32.Parse(values[1]);
+
+
+                <tr>
+                    <td width=100 style="text-align:center">@row</td>
+                    <td width=100 style="text-align:center">@col</td>
+                </tr>
+            }
+        }
+    </table>
+}
+<p style="text-align:center">
+    @{
+        if (Model.layout != null)
+        {
+            <input type="button" id="submitLayout" value="Create Warehouse">
+
+        }
+        <input type="button" id="Return" value="Back to Admin Control Panel">
+    }
+</p>
+
+<script>
+    var iRow = document.getElementById('row');
+    var iCol = document.getElementById('col');
+
+    var iaddItem = document.getElementById('addItem');
+    var isubmitLayout = document.getElementById('submitLayout');
+
+    iaddItem.addEventListener("click", addItemToLayout);
+    isubmitLayout.addEventListener("click", submitTheLayout);
+
+    function addItemToLayout() {
+        if (iRow.value == "") {
+            alert("Item incomplete! Please try again")
+        }
+        else if (iCol.value == "") {
+            alert("Item incomplete! Please try again")
+        }
+        else if (isNaN(iCol.value)) {
+            alert("Invalid input, please enter integer values");
+        }
+        else if (isNaN(iRow.value)) {
+            alert("Invalid input, please enter integer values");
+        }
+        else {
+
+            if ('@Model.layout' == "") {
+                var new_layout = "Shelf=" + iRow.value + ',' + iCol.value;
+                var url = "/Admin/WarehouseShelfLayout?rows=" + '@Model.rows' + "&name=" + '@Model.name' + "&cols=" + '@Model.cols' + "&layout=" + new_layout;
+            }
+            else {
+                var new_layout = '@Model.layout' +  '!' + "Shelf=" + iRow.value + ',' + iCol.value;
+                var url = "/Admin/WarehouseShelfLayout?rows=" + '@Model.rows' + "&name=" + '@Model.name' + "&cols=" + '@Model.cols' + "&layout=" + new_layout;
+            }
+            window.location.href = url;
+        }
+    }
+
+    function submitTheLayout() {
+
+        window.location.href = "/Admin/AddWarehouse?rows=" + '@Model.rows' + "&cols=" + '@Model.cols' + "&layout=" + '@Model.layout' +"&warehouseName=" + '@Model.name';
+    }
+
+</script>
+
+
+<script>
+    var btn1 = document.getElementById("Return");
+    btn1.addEventListener("click", goBack);
+
+    function goBack() {
+        window.location.href = '/Admin/Secure?authorized=1';
+    }
+</script>

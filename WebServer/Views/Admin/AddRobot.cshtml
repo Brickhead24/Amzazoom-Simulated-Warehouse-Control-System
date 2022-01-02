@@ -1,0 +1,20 @@
+﻿@model WebServer.ViewModels.ResultViewModel
+@{
+    ViewBag.Title = "AddRobot";
+}
+
+<h2>AddRobot(s)</h2>
+<p>@Model.result</p>
+
+<input type="button" id="Return" value="Back to Admin Control Panel">
+
+<script>
+    var btn1 = document.getElementById("Return");
+    btn1.addEventListener("click", goBack);
+
+
+    function goBack() {
+        window.location.href = '/Admin/Secure?authorized=1';
+    }
+</script>
+

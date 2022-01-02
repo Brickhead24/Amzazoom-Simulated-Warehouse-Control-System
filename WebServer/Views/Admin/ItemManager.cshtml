@@ -1,0 +1,258 @@
+﻿@model WebServer.ViewModels.ItemManagerViewModel
+@{
+    ViewBag.Title = "ItemManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Item Manager: Add or Remove Items From Inventory</h2>
+<p>Note: to remove an item, simply input the name and quantity with a negative sign and leave the rest blank</p>
+@*Displays warehouse selection if warehouse is not selected*@
+@{ if (Model.warehouseName == null)
+    {
+        <table border="1" style="margin-left:auto;margin-right:auto;">
+            <tr>
+                <th width=150 colspan="2" style="text-align:center">Available Warehouses</th>
+            </tr>
+            @{ if (true)
+                {
+                    int j = 0;
+                    foreach (string wh in Model.whNames)
+                    {
+
+                        var whId = "WH" + j;
+                        <tr>
+                            <td colspan="2" width=100 style="text-align:center">@wh</td>
+
+
+                        </tr>
+
+
+                    }
+                    <tr> <th width=200 colspan="2" style="text-align:center"> Select a Warehouse to Browse:</th> </tr>
+                    <tr>
+                        <td height=30 width=150 style="text-align:center"><input type="text" id="WHselected" size=15></td>
+                        <td width=150 style="text-align:center"><input type="button" id="selectWH" value="Select Warehouse" size=5></td>
+                    </tr>
+
+                }
+            }
+        </table>
+    }
+}
+@*Displays inputs for adding an item to the order if warehouse is slected*@
+@{ if (Model.warehouseName != null)
+    {
+        <p> Adding Items to Warehouse: @Model.warehouseName</p>
+
+        <table border="1" style="margin-left:auto;margin-right:auto;">
+            <tr>
+                <th width=350 colspan="4" style="text-align:center">Item Properties</th>
+                <th width=350 colspan="4" style="text-align:center">Location Properties</th>
+            </tr>
+            <tr>
+                <th width=100 style="text-align:center">Item Name</th>
+                <th width=100 style="text-align:center">Item Weight</th>
+                <th width=100 style="text-align:center">Item Price</th>
+                <th width=100 style="text-align:center">Quantity</th>
+                <th width=100 style="text-align:center">Row</th>
+                <th width=100 style="text-align:center">Column</th>
+                <th width=100 style="text-align:center">Shelf Number</th>
+                <th width=100 style="text-align:center">Right Side?</th>
+
+            </tr>
+
+            <tr>
+                <td width=100 style="text-align:center"><input type="text" id="name" size=5></td>
+                <td width=100 style="text-align:center"><input type="text" id="weight" size=5></td>
+                <td width=100 style="text-align:center"><input type="text" id="price" size=5></td>
+                <td width=100 style="text-align:center"><input type="text" id="qty" size=5></td>
+                <td width=100 style="text-align:center"><input type="text" id="row" size=5></td>
+                <td width=100 style="text-align:center"><input type="text" id="col" size=5></td>
+                <td width=100 style="text-align:center"><input type="text" id="shelf" size=5></td>
+                <td width=100 style="text-align:center"><input type="checkbox" id="rSide"></td>
+
+
+            </tr>
+        </table>
+        <p></p>
+        <p style="text-align:center"><input type="button" id="addItem" value="Add Item to Stocking Order"></p>
+
+    } }
+@*Displays Items in order only if order is not empty*@
+@if (Model.order != null)
+{
+    <table border="1" style="margin-left:auto;margin-right:auto;">
+        <tr>
+            <th width=350 colspan="8" style="text-align:center">Current Order:</th>
+        </tr>
+        <tr>
+            <th width=350 colspan="4" style="text-align:center">Item Properties</th>
+            <th width=350 colspan="4" style="text-align:center">Location Properties</th>
+        </tr>
+        <tr>
+            <th width=100 style="text-align:center">Item Name</th>
+            <th width=100 style="text-align:center">Item Weight</th>
+            <th width=100 style="text-align:center">Item Price</th>
+            <th width=100 style="text-align:center">Quantity</th>
+            <th width=100 style="text-align:center">Row</th>
+            <th width=100 style="text-align:center">Column</th>
+            <th width=100 style="text-align:center">Shelf Number</th>
+            <th width=100 style="text-align:center">Right Side?</th>
+
+        </tr>
+
+        @{
+            string name;
+            double price, weight;
+            int row, col, shelf, qty;
+            bool rSide;
+
+            //Item=name,weight,price,row,col,shelf,rSide,qty
+            string[] items = Model.order.Split('!');
+
+            foreach (string item in items)
+            {
+                string[] parts = item.Split('=');
+                string[] values = parts[1].Split(',');
+
+                name = values[0];
+                weight = Double.Parse(values[1]);
+                price = Double.Parse(values[2]);
+                row = Int32.Parse(values[3]);
+                col = Int32.Parse(values[4]);
+                shelf = Int32.Parse(values[5]);
+                rSide = Boolean.Parse(values[6]);
+                qty = Int32.Parse(values[7]);
+
+                <tr>
+
+                    <td width=100 style="text-align:center">@name</td>
+                    <td width=100 style="text-align:center">@weight</td>
+                    <td width=100 style="text-align:center">@price</td>
+                    <td width=100 style="text-align:center">@qty</td>
+                    <td width=100 style="text-align:center">@row</td>
+                    <td width=100 style="text-align:center">@col</td>
+                    <td width=100 style="text-align:center">@shelf</td>
+                    <td width=100 style="text-align:center">@rSide</td>
+
+
+                </tr>
+
+            }
+
+
+        }
+    </table>
+}
+<p> </p>
+<p style="text-align:center">
+    @{
+        if (Model.order != null)
+        {
+
+            <input type="button" id="submitOrder" value="Submit Stocking Order">
+        }
+        <input type="button" id="Return" value="Back to Admin Control Panel">
+
+    }
+</p>
+<script>
+
+    var iName = document.getElementById('name');
+    var iPrice = document.getElementById('price');
+    var iWeight = document.getElementById('weight');
+    var iQty = document.getElementById('qty');
+    var iRow = document.getElementById('row');
+    var iCol = document.getElementById('col');
+    var iShelf = document.getElementById('shelf');
+    var iRSide = document.getElementById('rSide');
+
+    var iaddItem = document.getElementById('addItem');
+    var isubmitOrder = document.getElementById('submitOrder');
+
+    iaddItem.addEventListener("click", addItemToOrder);
+    isubmitOrder.addEventListener("click", submitTheOrder);
+
+    function addItemToOrder() {
+        if (iName.value == "") {
+            alert("Invalid Input! Please try again")
+
+        }
+        else if ((iQty.value == "") || isNaN(iQty.value)) {
+            alert("Invalid Input! Please try again")
+
+        }
+        else if (iQty.value < 0) {
+            if ('@Model.order' == "") {
+                var url = "/Admin/ItemManager?warehouseName=" +'@Model.warehouseName'+"&order=" + "Item=" + iName.value + ',' + 0 + ',' + 0 + ',' + 0 + ',' + 0 + ',' + 0 + ',' + iRSide.checked + ',' + iQty.value;
+            }
+            else {
+                var url = "/Admin/ItemManager?warehouseName="+ '@Model.warehouseName'+"&order=" + '@Model.order' + '!' + "Item=" + iName.value + ',' + 0 + ',' + 0 + ',' + 0 + ',' + 0 + ',' + 0 + ',' + iRSide.checked + ',' + iQty.value;
+            }
+            window.location.href = url;
+        }
+
+        else if ((iPrice.value == "") || isNaN(iPrice.value)) {
+            alert("Invalid Input! Please try again")
+
+        }
+        else if ((iWeight.value == "") || isNaN(iWeight.value)) {
+            alert("Invalid Input! Please try again")
+
+        }
+
+        else if ((iRow.value == "") || isNaN(iRow.value)) {
+            alert("Invalid Input! Please try again")
+
+        }
+        else if ((iCol.value == "") || isNaN(iCol.value)){
+            alert("Invalid Input! Please try again")
+
+        }
+        else if ((iShelf.value == "") || isNaN(iShelf.value)){
+            alert("Invalid Input! Please try again")
+        }
+
+        else {
+
+            if ('@Model.order' == "") {
+                var url = "/Admin/ItemManager?warehouseName=" +'@Model.warehouseName'+"&order=" + "Item=" + iName.value + ',' + iWeight.value + ',' + iPrice.value + ',' + iRow.value + ',' + iCol.value + ',' + iShelf.value + ',' + iRSide.checked + ',' + iQty.value;
+            }
+            else {
+                var url = "/Admin/ItemManager?warehouseName="+ '@Model.warehouseName'+"&order=" + '@Model.order' + '!' + "Item=" + iName.value + ',' + iWeight.value + ',' + iPrice.value + ',' + iRow.value + ',' + iCol.value + ',' + iShelf.value + ',' + iRSide.checked + ',' + iQty.value;
+            }
+            window.location.href = url;
+        }
+    }
+
+    function submitTheOrder() {
+
+        window.location.href = "/Admin/SubmitStockingOrder?warehouseName="+ '@Model.warehouseName'+"&order=" + '@Model.order';
+    }
+
+
+
+</script>
+
+
+<script>
+    var sbmtWH = document.getElementById("selectWH");
+    sbmtWH.addEventListener("click", selectWH);
+
+    var WHId = document.getElementById("WHselected");
+
+    function selectWH() {
+        window.location.href = "/Admin/ItemManager?warehouseName=" + WHId.value;
+    }
+</script>
+
+
+<script>
+    var btn1 = document.getElementById("Return");
+    btn1.addEventListener("click", goBack);
+
+    function goBack() {
+        window.location.href = '/Admin/Secure?authorized=1';
+    }
+</script>

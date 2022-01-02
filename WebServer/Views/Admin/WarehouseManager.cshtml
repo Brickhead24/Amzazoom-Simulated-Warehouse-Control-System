@@ -1,0 +1,68 @@
+﻿@model WebServer.ViewModels.WarehouseViewModel
+@{
+    ViewBag.Title = "WarehouseManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Warehouse Manager</h2>
+<p>Fill out the form below to start adding a new Warehouse</p>
+@*Requests warehouseName, and grid size*@
+<table border="1" style="margin-left:auto;margin-right:auto;">
+    <tr>
+        <th width=350 colspan="3" style="text-align:center">Warehouse Size</th>
+    </tr>
+    <tr>
+        <th width=100 style="text-align:center">Warehouse Name</th>
+        <th width=100 style="text-align:center">Rows</th>
+        <th width=100 style="text-align:center">Columns</th>
+
+    </tr>
+
+    <tr>
+        <td width=100 style="text-align:center"><input type="text" id="name" size=5></td>
+        <td width=100 style="text-align:center"><input type="text" id="row" size=5></td>
+        <td width=100 style="text-align:center"><input type="text" id="col" size=5></td>
+    </tr>
+</table>
+<p></p>
+<p style="text-align:center">
+    <input type="button" id="submit" value="Comfirm Size">
+    <input type="button" id="Return" value="Back to Admin Control Panel">
+</p>
+
+<script>
+    var iRow = document.getElementById('row');
+    var iCol = document.getElementById('col');
+    var iName = document.getElementById('name');
+
+    var isubmit = document.getElementById('submit');
+
+    isubmit.addEventListener("click", submitTheLayout);
+
+    function submitTheLayout() {
+        if ((iRow.value == "") || (iCol.value == "")) {
+            alert("Invalid input, please use integer values");
+        }
+        else if (iName.value == "") {
+            alert("Invalid input, please use integer values");
+        }
+        else if (!isNaN(iRow.value) && !isNaN(iCol.value)) {
+            window.location.href = "/Admin/WarehouseShelfLayout?rows=" + iRow.value + "&cols=" + iCol.value + "&name=" + iName.value;
+        }
+        else {
+            alert("Invalid input, please use integer values");
+        }
+        
+    }
+
+</script>
+
+
+<script>
+    var btn1 = document.getElementById("Return");
+    btn1.addEventListener("click", goBack);
+
+    function goBack() {
+        window.location.href = '/Admin/Secure?authorized=1';
+    }
+</script>

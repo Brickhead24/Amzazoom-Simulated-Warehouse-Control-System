@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Secure";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Admin Control Pannel</h2>
+<p> Welcome to the secure Admin control center, here you have direct control over the operation of the warehouse</p>
+<p>
+    @*Buttons that redirect user to various pages*@
+    <input type="button" id="item" value="Item Manager"><br />
+    <input type="button" id="robot" value="Robot Manager"><br />
+    <input type="button" id="warehouse" value="Warehouse Manager"><br />
+    <input type="button" id="animation" value="Warehouse Animation Manager"><br />
+</p>
+<script>
+    var btn1 = document.getElementById("item");
+    btn1.addEventListener("click", goToItems);
+    var btn2 = document.getElementById("robot");
+    btn2.addEventListener("click", goToRobots);
+    var btn3 = document.getElementById("warehouse");
+    btn3.addEventListener("click", goToWarehouse);
+    var btn4 = document.getElementById("animation");
+    btn4.addEventListener("click", goToAnimation);
+
+
+
+    function goToItems() {
+        window.location.href = '/Admin/ItemManager';
+    }
+    function goToRobots() {
+        window.location.href = '/Admin/RobotManager';
+    }
+    function goToWarehouse() {
+        window.location.href = '/Admin/WarehouseManager';
+    }
+    function goToAnimation() {
+        window.location.href = '/Admin/AnimationManager';
+    }
+</script>

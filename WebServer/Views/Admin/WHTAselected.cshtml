@@ -1,0 +1,21 @@
+﻿@model WebServer.ViewModels.RobotViewModel
+@{
+    ViewBag.Title = "WHTAselected";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Animation Manager</h2>
+
+<p>Warehouse: @Model.warehouseName will be animated in the backend terminal</p>
+
+<p><input type="button" id="Return" value="Back to Admin Control Pannel"></p>
+
+<script>
+    var btn1 = document.getElementById("Return");
+    btn1.addEventListener("click", goBack);
+
+    function goBack() {
+        window.location.href = '/Admin/Secure?authorized=1';
+    }
+</script>
+

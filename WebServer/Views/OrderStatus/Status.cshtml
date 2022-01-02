@@ -1,0 +1,20 @@
+﻿@model WebServer.ViewModels.OrderStatusViewModel
+@{
+    ViewBag.Title = "Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Status</h2>
+
+<p>Your Order Status is: @Model.orderStatus</p>
+
+<p><input type="button" id="Return" value="Back to Order Status Page"></p>
+
+<script>
+    var btn1 = document.getElementById("Return");
+    btn1.addEventListener("click", goBack);
+
+    function goBack() {
+        window.location.href = '/OrderStatus/Index';
+    }
+</script>

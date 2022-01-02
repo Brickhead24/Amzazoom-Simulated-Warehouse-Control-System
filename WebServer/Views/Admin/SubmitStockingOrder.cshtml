@@ -1,0 +1,20 @@
+﻿@model WebServer.ViewModels.ResultViewModel
+@{
+    ViewBag.Title = "SubmitStockingOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Submit Stocking Order</h2>
+
+<p>@Model.result</p>
+
+<p><input type="button" id="Return" value="Back to Admin Control Pannel"></p>
+
+<script>
+    var btn1 = document.getElementById("Return");
+    btn1.addEventListener("click", goBack);
+
+    function goBack() {
+        window.location.href = '/Admin/Secure?authorized=1';
+    }
+</script>

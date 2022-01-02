@@ -1,0 +1,28 @@
+﻿@model WebServer.ViewModels.ConfirmationViewModel
+@using WebServer.Models;
+@{ ViewBag.Title = "Confirmation";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<h2>Confirmation</h2>
+
+
+
+
+<p>Your order:</p>
+@foreach (WebItem item in Model.Items)
+{
+    if (item.inv > 0)
+    {
+        <p> @item.inv of Item @item.name</p>
+    }
+
+
+}
+
+
+
+<p>@Model.result</p>
+
+
+
+

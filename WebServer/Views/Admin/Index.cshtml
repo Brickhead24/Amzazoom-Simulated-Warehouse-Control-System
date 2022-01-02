@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Admin Login</h2>
+<p> 
+    @*Requests user input for username and password*@
+    To access Admin features, please login <br /> 
+    Username: <input type="text" id="username" size=5> <br /> 
+    Password: <input type="text" id="password" size=5> <br />
+    <input type="button" value="Submit">
+</p>
+
+
+<script>
+    var sbmt_btn = document.querySelector("input[type=button]");
+    sbmt_btn.addEventListener("click", CheckPassword);
+
+    //Simple username and password check
+    function CheckPassword() {
+        var userName = document.getElementById("username");
+        var passWord = document.getElementById("password");
+
+        if ((userName.value == "admin") && (passWord.value == "admin")) {
+            window.location.href = '/Admin/Secure?authorized=1';
+
+        }
+        else {
+            window.location.href = '/Admin/IncorrectLogin';
+        }
+        
+        
+    }
+
+</script>
+
+

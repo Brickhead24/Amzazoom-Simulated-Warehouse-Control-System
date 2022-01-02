@@ -1,0 +1,124 @@
+﻿@model WebServer.ViewModels.RobotViewModel
+@{
+    ViewBag.Title = "RobotManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RobotManager</h2>
+@*Displays warehouse selection if warehouse is not yet selected*@
+@{ if (Model.warehouseName == null)
+    {
+    <table border="1" style="margin-left:auto;margin-right:auto;">
+        <tr>
+            <th width=150 colspan="2" style="text-align:center">Available Warehouses</th>
+        </tr>
+        @{ if (true)
+            {
+                int j = 0;
+                foreach (string wh in Model.whNames)
+                {
+
+                    var whId = "WH" + j;
+                    <tr>
+                        <td colspan="2" width=100 style="text-align:center">@wh</td>
+
+
+                    </tr>
+
+
+                }
+                <tr> <th width=200 colspan="2" style="text-align:center"> Select a Warehouse to Browse:</th> </tr>
+                <tr>
+                    <td height=30 width=150 style="text-align:center"><input type="text" id="WHselected" size=15></td>
+                    <td width=150 style="text-align:center"><input type="button" id="selectWH" value="Select Warehouse" size=5></td>
+                </tr>
+
+            }
+        }
+    </table>
+    }
+}
+@*if warehouse is slected, displays input options for adding robots to backend warehouse*@
+@{ if (Model.warehouseName != null) {
+        <p> Currently Accessing Warehouse: @Model.warehouseName</p>
+<table border="1" style="margin-left:auto;margin-right:auto;">
+    <tr>
+
+        <th style="text-align:center"> Robots Currently In Service </th>
+        <th style="text-align:center"> Robots to Add </th>
+        <th style="text-align:center"> New Robot Quantity </th>
+
+    </tr>
+
+
+    <tr>
+        <td style="text-align:center"> @Model.qty </td>
+        <td><input type="text" id="qty"></td>
+        <td id="Total" style="text-align:center"></td>
+
+    </tr>
+</table>
+
+<p><input type="button" id="submit" value="Submit"></p>
+}}
+
+<p><input type="button" id="Return" value="Back to Admin Control Panel"></p>
+
+<script>
+    var CurrentQty = document.getElementById('qty');
+    CurrentQty.addEventListener("change", calc)
+
+    var sbmt_btn = document.getElementById("submit");
+    sbmt_btn.addEventListener("click", submit);
+
+    var btn1 = document.getElementById("Return");
+    btn1.addEventListener("click", goBack);
+
+
+
+
+    function calc() {
+        var total = document.getElementById('Total');
+        var robotQty = @Model.qty + parseInt(CurrentQty.value, 10);
+
+        total.textContent = robotQty.toFixed();
+
+
+    }
+
+    function submit() {
+        if (isNaN(parseInt(CurrentQty.value, 10))) {
+            alert("Input is not a integer number, Please try again")
+        }
+        else {
+            //Forwards to controller for adding robots to given warehouse
+            window.location.href = '/Admin/AddRobot/?warehouseName=' + '@Model.warehouseName' +'&qty=' + CurrentQty.value;
+        }
+
+
+    }
+
+</script>
+
+<script>
+    //Returns user to Admin Control Pannel
+    var btn1 = document.getElementById("Return");
+    btn1.addEventListener("click", goBack);
+
+    function goBack() {
+        window.location.href = '/Admin/Secure?authorized=1';
+    }
+</script>
+
+<script>
+    //Selects warehouse based on warehouseName input
+    var sbmtWH = document.getElementById("selectWH");
+    sbmtWH.addEventListener("click", selectWH);
+
+    var WHId = document.getElementById("WHselected");
+
+    function selectWH() {
+        window.location.href = "/Admin/RobotManager?warehouseName=" + WHId.value;
+    }
+</script>
+

@@ -1,0 +1,288 @@
+﻿@using WebServer.Models
+@model WebServer.ViewModels.ItemViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    p {
+        text-align: center;
+    }
+
+
+</style>
+<h2>Order from Amazoom!</h2>
+<style>
+h1 {text-align: center;}
+p {text-align: center;}
+div {text-align: center;}
+</style>
+<form>
+    @{ if (Model.warehouseName != null)
+        {
+            <table border="1" style="margin-left:auto;margin-right:auto;">
+                <tr>
+                    <th width=100 style="text-align:center">Item</th>
+                    <th width=100 style="text-align:center">Quantity</th>
+                    <th width=100 style="text-align:center">Available</th>
+                    <th width=100 style="text-align:center">Additional Info</th>
+                    <th width=100 style="text-align:center">Price $</th>
+                    <th width=100 style="text-align:center">Total $</th>
+
+                </tr>
+
+
+                @{ if (Model.Items.Count > 0)
+                    {
+                        int i = 0;
+                        foreach (WebItem item in Model.Items)
+                        {
+                            var nameStr = item.name;
+                            var qtyId = "Qty" + i;
+                            var maxQty = item.inv;
+                            var prcId = "Price" + i;
+                            var totId = "Total" + i;
+                            var prc = item.price;
+                            i++;
+                            var lowStock = "";
+                            if (maxQty <= 2)
+                            {
+                                lowStock = "Low Stock!";
+                            }
+                            if (maxQty >= 0)
+                            {
+                                <tr>
+                                    <td width=100 style="text-align:center">@nameStr</td>
+                                    <td><input type="text" id=@qtyId size=5></td>
+                                    <td width=100 style="text-align:center">@maxQty</td>
+                                    <td width=100 style="text-align:center">@lowStock</td>
+                                    <td id=@prcId width=100 style="text-align:center">@prc</td>
+                                    <td id=@totId width=100 style="text-align:center"></td>
+                                </tr>
+                            }
+
+
+
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan=" 5"> Inventory empty </td>
+                        </tr>
+                    }
+
+                }
+
+
+                <tr>
+                    <td style="text-align:center"> Total $: </td>
+                    <!-- Span over the remaining columns of the table. -->
+                    <td style="text-align:center" id="grandTotal" colspan="4"></td>
+                </tr>
+            </table>
+
+            <p></p>
+            <p>
+                <input type="button" value="Place Order" id="SubmitOrder">
+                <input type="reset" value="Reset">
+            </p>
+
+
+
+                    }
+    }
+
+
+    @{ if (Model.warehouseName == null)
+        {
+            <table border="1" style="margin-left:auto;margin-right:auto;">
+                <tr>
+                    <th width=150 colspan="2" style="text-align:center">Available Warehouses</th>
+                </tr>
+                @{ if (true)
+                    {
+
+                        int j = 0;
+                        foreach (string wh in Model.whNames)
+                        {
+
+                            var whId = "WH" + j;
+                            <tr>
+                                <td colspan="2" width=100 style="text-align:center">@wh</td>
+
+
+                            </tr>
+
+
+                        }
+                        <tr> <th width=200 colspan="2" style="text-align:center"> Select a Warehouse to Browse:</th> </tr>
+                        <tr>
+                            <td height=30 width=150 style="text-align:center"><input type="text" id="WHselected" size=15></td>
+                            <td width=150 style="text-align:center"><input type="button" id="selectWH" value="Select Warehouse" size=5></td>
+                        </tr>
+
+                    }
+                }
+            </table>
+                    }
+    }
+
+   
+
+    </form>
+<script>
+    var sbmtBtn = document.getElementById("SubmitOrder");
+
+    var sbmtWH = document.getElementById("selectWH");
+    sbmtWH.addEventListener("click", selectWH);
+
+    function selectWH() {
+        window.location.href = "/Order/Index?warehouseName=" + WHId.value;
+    }
+</script>
+
+<script>
+    
+
+    var WHId = document.getElementById("WHselected");
+
+
+    var orderTotal = document.getElementById('grandTotal');
+    var btnReset = document.querySelector("input[type=reset]");
+
+
+    var size = @Model.Items.Count;
+    let qtyBox = new Array(size);
+
+
+
+    for (var i = 0; i < size; i++)
+    {
+
+            var qtyId = "Qty" + i.toString();
+            qtyBox[i] = document.getElementById(qtyId);
+            qtyBox[i].addEventListener("change", calc);
+    }
+
+
+    sbmtBtn.addEventListener("click", submitOrder);
+    btnReset.addEventListener("click", reset);
+
+    var gt = 0; // Will hold the grand total
+
+    function calc() {
+
+        gt = 0;
+        items = 0;
+
+        for (var i = 0; i < size; i++)
+        {
+            var prcId = "Price" + i.toString();
+            var price = document.getElementById(prcId);
+            var totId = "Total" + i.toString();
+            var total = document.getElementById(totId);
+            // Convert the value in the quantity textbox to a number
+            var qty = parseInt(qtyBox[i].value, 10);
+
+            // If parseInt() can't parse a number from the string provided, it returns NaN (Not A Number)
+            if (!isNaN(qty))
+            {
+                    // The +sign in front of the box reference forces a conversion of the string to a number
+                var itemTotal = qty * +price.textContent;
+
+                total.textContent = itemTotal.toFixed(2);
+
+                gt += +total.textContent;
+            }
+        }
+
+        orderTotal.textContent = gt.toFixed(2); // Place the total in an element as its text
+
+    }
+
+    var namesArr = [];
+
+    @foreach (WebItem item in Model.Items)
+    {
+                @:namesArr.push("@item.name");
+            }
+
+
+    var url = '/Order/Confirmation?input=';
+
+
+
+    function getUrl() {
+
+        for (var i = 0; i < size; i++)
+        {
+
+            url = url + "Item=" + namesArr[i] + ',';
+            var qty = parseInt(qtyBox[i].value, 10);
+            if (!isNaN(qty)) {
+                url = url +  qty;
+            }
+            else {
+                url = url + '0';
+            }
+            if (i < size - 1) {
+                url = url + '!';
+            }
+        }
+    }
+
+
+    function submitOrder() {
+        calc(); // Make sure all values are up to date
+        getUrl();
+        var invalidflag = 0;
+        //orderTotal.textContent = url;
+        for (var i = 0; i < size; i++) {
+            if (qtyBox[i].value != "") {
+                if (isNaN(parseInt(qtyBox[i].value, 10))) {
+                    invalidflag = 1;
+                }
+                else if (parseInt(qtyBox[i].value, 10) < 0) {
+                    invalidflag = 1;
+                }
+
+            }
+
+        }
+        if (@Model.Items.Count == 0) {
+            invalidflag = 2;
+        }
+        if (invalidflag==1) {
+            alert("Check that your quantities are all positive integers and try again");
+        }
+        else if (invalidflag == 2) {
+            alert("The inventory is empty, you cannot make an order");
+        }
+        else if (gt == 0) {
+            alert("You must add an Item to the cart to order");
+        }
+        else {
+
+            window.location.href = url + "&warehouseName=" + '@Model.warehouseName';
+        }
+
+
+
+    }
+
+    function reset(){
+            // The built-in functionality of the <input type=reset> will clear out
+            // the quantity input fields automatically, but we need to manually reset
+            // non form field element that have been modified:
+        for (var i = 1; i < size; i++)
+            {
+                var totId = "Total" + i.toString();
+                total = document.getElementById(totId);
+                total.textContent = "";
+            }
+            orderTotal.textContent = "";
+    }
+
+</script>

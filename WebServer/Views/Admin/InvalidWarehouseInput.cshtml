@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "InvalidWarehouseInput";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Invalid Warehouse Input</h2>
+<p>Please try again</p>
+
+<p><input type="button" id="Return" value="Back to Admin Control Pannel"></p>
+
+<script>
+    var btn1 = document.getElementById("Return");
+    btn1.addEventListener("click", goBack);
+
+    function goBack() {
+        window.location.href = '/Admin/Secure?authorized=1';
+    }
+</script>

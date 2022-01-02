@@ -1,0 +1,47 @@
+﻿@model WebServer.ViewModels.RobotViewModel
+@{
+    ViewBag.Title = "WarehouoseToAnimate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Animation Manager</h2>
+
+<table border="1" style="margin-left:auto;margin-right:auto;">
+    <tr>
+        <th width=150 colspan="2" style="text-align:center">Available Warehouses</th>
+    </tr>
+    @{ if (true)
+        {
+            int j = 0;
+            //Displays list of warehouses and requests input
+            foreach (string wh in Model.whNames)
+            {
+
+                var whId = "WH" + j;
+                <tr>
+                    <td colspan="2" width=100 style="text-align:center">@wh</td>
+                </tr>
+
+
+            }
+            <tr> <th width=200 colspan="2" style="text-align:center"> Select a Warehouse to Animate in Backend Terminal:</th> </tr>
+            <tr>
+                <td height=30 width=150 style="text-align:center"><input type="text" id="WHselected" size=15></td>
+                <td width=150 style="text-align:center"><input type="button" id="selectWH" value="Select Warehouse" size=5></td>
+            </tr>
+
+        }
+    }
+</table>
+
+<script>
+    var sbmtWH = document.getElementById("selectWH");
+    sbmtWH.addEventListener("click", selectWH);
+
+    var WHId = document.getElementById("WHselected");
+
+    function selectWH() {
+        //Calls controller action to update warehouse to Animate
+        window.location.href = "/Admin/WHTASelected?warehouseName=" + WHId.value;
+    }
+</script>
