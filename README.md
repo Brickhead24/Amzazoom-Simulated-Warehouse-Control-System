@@ -6,7 +6,7 @@ Zi Tan
 Jake An 
 
 **READ ENTIRE README BEFORE RUNNING PROJECT**  
-**NOTE: Extra features list (not all were mentioned in Demo):**  
+**NOTE: Extra features list:**  
 - Warehouse Animation on backend terminal    
 
 - Admin/Manager interactions are handled on Website using password protected page instead of on terminal. This includes:  
