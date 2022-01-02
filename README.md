@@ -1,9 +1,9 @@
  # Amazoom: Automated Warehouse Management
 Made by:  
-Will Chaba 59822890  
-Ahmed Tameem 41050360  
-Zi Tan 44120153  
-Jake An 52697224  
+Will Chaba 
+Ahmed Tameem 
+Zi Tan 
+Jake An 
 
 **READ ENTIRE README BEFORE RUNNING PROJECT**  
 **NOTE: Extra features list (not all were mentioned in Demo):**  
