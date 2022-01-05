@@ -4,7 +4,7 @@ Will Chaba
 Ahmed Tameem  
 Zi Tan  
 Jake An  
-<img src="assets/AmazoomHomepage.png" width="720"/>
+<img src="assets/AmazoomHomepage.png" width="1000"/>
 
 **READ ENTIRE README BEFORE RUNNING PROJECT**  
 **NOTE: Extra features list:**  
