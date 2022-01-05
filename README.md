@@ -27,7 +27,7 @@ Jake An
 How to add reference to Backend (REQUIRED TO RUN FRONTEND)
 1. Open WebServer.sln from WebServer folder
 2. Open References drop-down, delete reference to Backend
-<img src="assets/ReferenceTut2.png" width="720"/>
+<img src="assets/ReferenceTut2.png" width="1000"/>
 3. Right click References, select Add Reference
 <img src="assets/ReferenceTut3.png" width="1000"/>
 4. Go to browse, open browse window
