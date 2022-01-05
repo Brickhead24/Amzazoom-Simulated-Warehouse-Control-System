@@ -29,16 +29,16 @@ How to add reference to Backend (REQUIRED TO RUN FRONTEND)
 2. Open References drop-down, delete reference to Backend
 <img src="assets/ReferenceTut2.png" width="720"/>
 3. Right click References, select Add Reference
-<img src="assets/ReferenceTut3.png" width="720"/>
+<img src="assets/ReferenceTut3.png" width="1000"/>
 4. Go to browse, open browse window
-<img src="assets/ReferenceTut4.png" width="720"/>
+<img src="assets/ReferenceTut4.png" width="1000"/>
 5. Navigate to ...\cpen333project\Backend\bin\Debug, select Backend.exe
-<img src="assets/ReferenceTut5-1.png" width="720"/>
-<img src="assets/ReferenceTut5-2.png" width="720"/>
-<img src="assets/ReferenceTut5-3.png" width="720"/>
-<img src="assets/ReferenceTut5-4.png" width="720"/>
+<img src="assets/ReferenceTut5-1.png" width="1000"/>
+<img src="assets/ReferenceTut5-2.png" width="1000"/>
+<img src="assets/ReferenceTut5-3.png" width="1000"/>
+<img src="assets/ReferenceTut5-4.png" width="1000"/>
 6. click OK
-<img src="assets/ReferenceTut6.png" width="720"/>
+<img src="assets/ReferenceTut6.png" width="1000"/>
 
 # How to Run Project
 1. open Backend.sln from Backend Folder
